@@ -13,20 +13,21 @@ function findPostcode() {
             let bunParsed = '';
             let jiParsed = '';
 
-
             // 부번의 존재여부를 체크한다.
             if (/-/.test(jibunAddr)) {
-                jibunParsed = jibunAddr.match(/\d{0,5}-\d{0,5}/);
-                // 하이픈을 기준으로 본번과 부번을 나눈다.
-                bunParsed = jibunParsed[0].slice(0, jibunParsed.indexOf('-')-2);
-                jiParsed = jibunParsed[0].slice(jibunParsed.indexOf('-'))-1;
+                // 부번이 존재하는 경우 하이픈을 기준으로 본번과 부번을 나눈다.
+                jibunParsed = jibunAddr.match(/\d{1,4}-\d{1,4}/);
+                let temp = jibunParsed.toString().split('-', 2);
+                // 본번과 부번을 각각의 변수에 할당한다.
+                // 각각 zero fill 하여 4자리를 맞춰준다.
+                bunParsed = temp[0].padStart(4, '0');
+                jiParsed = temp[1].padStart(4, '0');
             } else {
-                bunParsed = jibunAddr.match(/\d{1,4}$/);
-                jibunParsed = bunParsed;
+                // 부번이 존재하지 않는 경우
+                jibunParsed = jibunAddr.match(/\d{1,4}$/);
+                bunParsed = jibunParsed.toString().padStart(4, '0');
             }
-            console.log(typeof(jibunParsed[0]));
-            console.log(bunParsed);
-            console.log((jiParsed));
+
             // 법정동명이 있을 경우 추가한다. (법정리는 제외)
             // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
             if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
