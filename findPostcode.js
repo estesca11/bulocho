@@ -6,13 +6,13 @@ function findPostcode() {
             // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
             let roadAddr = data.roadAddress; // 도로명 주소 변수
             let extraRoadAddr = ''; // 참고 항목 변수
-            let bjdCode = data.bcode;
+            let bjdCode = data.bcode.toString().slice(5);
             let sgCode = data.sigunguCode;
             let jibunAddr = data.jibunAddress;
             let jibunParsed = '';
             let bunParsed = '';
             let jiParsed = '';
-
+            let apiKey = '8hWTxjOSsGimA5pB6AwPWTkEFTNXJEo7F3AJlEk45vT8QvjKkHokE1o%2BVbLNfLW6nShurD4JAU2q7IzoW%2FhL7Q%3D%3D';
             // 부번의 존재여부를 체크한다.
             if (/-/.test(jibunAddr)) {
                 // 부번이 존재하는 경우 하이픈을 기준으로 본번과 부번을 나눈다.
@@ -26,7 +26,17 @@ function findPostcode() {
                 // 부번이 존재하지 않는 경우
                 jibunParsed = jibunAddr.match(/\d{1,4}$/);
                 bunParsed = jibunParsed.toString().padStart(4, '0');
+                jiParsed = '0000';
             }
+
+            //openAPI의 엔드포인트
+            let openapiURL = `http://apis.data.go.kr/1613000/BldRgstService_v2/getBrTitleInfo?sigunguCd=${sgCode}&bjdongCd=${bjdCode}&bun=${bunParsed}&ji=${jiParsed}&ServiceKey=${apiKey}&_type=json`;
+            console.log(openapiURL);
+            fetch(openapiURL)
+                .then((res) => res.json())
+                .then(console.log)
+            
+            // 받아온 json을 파싱해야 함
 
             // 법정동명이 있을 경우 추가한다. (법정리는 제외)
             // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
