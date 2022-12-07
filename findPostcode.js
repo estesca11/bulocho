@@ -8,35 +8,8 @@ function findPostcode() {
             let extraRoadAddr = ''; // 참고 항목 변수
             let bjdCode = data.bcode.toString().slice(5);
             let sgCode = data.sigunguCode;
-            let jibunAddr = data.jibunAddress;
-            let jibunParsed = '';
-            let bunParsed = '';
-            let jiParsed = '';
-            let apiKey = '8hWTxjOSsGimA5pB6AwPWTkEFTNXJEo7F3AJlEk45vT8QvjKkHokE1o%2BVbLNfLW6nShurD4JAU2q7IzoW%2FhL7Q%3D%3D';
-            // 부번의 존재여부를 체크한다.
-            if (/-/.test(jibunAddr)) {
-                // 부번이 존재하는 경우 하이픈을 기준으로 본번과 부번을 나눈다.
-                jibunParsed = jibunAddr.match(/\d{1,4}-\d{1,4}/);
-                let temp = jibunParsed.toString().split('-', 2);
-                // 본번과 부번을 각각의 변수에 할당한다.
-                // 각각 zero fill 하여 4자리를 맞춰준다.
-                bunParsed = temp[0].padStart(4, '0');
-                jiParsed = temp[1].padStart(4, '0');
-            } else {
-                // 부번이 존재하지 않는 경우
-                jibunParsed = jibunAddr.match(/\d{1,4}$/);
-                bunParsed = jibunParsed.toString().padStart(4, '0');
-                jiParsed = '0000';
-            }
-
-            //openAPI의 엔드포인트
-            let openapiURL = `http://apis.data.go.kr/1613000/BldRgstService_v2/getBrTitleInfo?sigunguCd=${sgCode}&bjdongCd=${bjdCode}&bun=${bunParsed}&ji=${jiParsed}&ServiceKey=${apiKey}&_type=json`;
-            console.log(openapiURL);
-            fetch(openapiURL)
-                .then((res) => res.json())
-                .then(console.log)
-            
-            // 받아온 json을 파싱해야 함
+            let jibunMain = data.buildingCode.toString().substr(11, 4);
+            let jibunSub = data.buildingCode.toString().substr(15, 4);
 
             // 법정동명이 있을 경우 추가한다. (법정리는 제외)
             // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
@@ -56,11 +29,12 @@ function findPostcode() {
             document.getElementById('sample4_postcode').value = data.zonecode;
             document.getElementById("sample4_roadAddress").value = roadAddr;
             document.getElementById("sample4_jibunAddress").value = data.jibunAddress;
+
+            // 다음 API 리턴값 표시
             document.getElementById("bjdCode").value = bjdCode;
             document.getElementById("sgCode").value = sgCode;
-            document.getElementById("jibun").value = jibunParsed;
-            document.getElementById("jibunMain").value = bunParsed;
-            document.getElementById("jibunSub").value = jiParsed;
+            document.getElementById("jibunMain").value = jibunMain;
+            document.getElementById("jibunSub").value = jibunSub;
 
             // 참고항목 문자열이 있을 경우 해당 필드에 넣는다.
             if (roadAddr !== '') {
@@ -69,7 +43,7 @@ function findPostcode() {
                 document.getElementById("sample4_extraAddress").value = '';
             }
 
-            let guideTextBox = document.getElementById("guide");
+            let guideTextBox = document.getElementById("guide");                       
             // 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
             if (data.autoRoadAddress) {
                 let expRoadAddr = data.autoRoadAddress + extraRoadAddr;
@@ -84,6 +58,23 @@ function findPostcode() {
                 guideTextBox.innerHTML = '';
                 guideTextBox.style.display = 'none';
             }
+
+            // 모든 항목을 표시한 후 openAPI Request
+            openAPI(sgCode, bjdCode, jibunMain, jibunSub);
         }
-    }).open();
+    }).open({
+        autoClose: true
+    });
+}
+
+function openAPI(sgCode, bdCode, bun, ji) {
+
+    let apiKey = '8hWTxjOSsGimA5pB6AwPWTkEFTNXJEo7F3AJlEk45vT8QvjKkHokE1o%2BVbLNfLW6nShurD4JAU2q7IzoW%2FhL7Q%3D%3D';
+
+    //openAPI의 엔드포인트
+    let openapiURL = `http://apis.data.go.kr/1613000/BldRgstService_v2/getBrTitleInfo?sigunguCd=${sgCode}&bjdongCd=${bdCode}&bun=${bun}&ji=${ji}&ServiceKey=${apiKey}&_type=json`;
+    fetch(openapiURL)
+        .then((res) => res.json())
+        .then(console.log)
+
 }
