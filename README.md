@@ -36,9 +36,7 @@ API에서 받아올 정보
 
 물건파일에 저장
 
-### Stack
-
----
+## Stack
 
 - JavaScript
 - NodeJS
@@ -47,9 +45,7 @@ API에서 받아올 정보
     [https://github.com/bandoche/PyPinkSign](https://github.com/bandoche/PyPinkSign)
     
 
-### Implementation
-
----
+## Implementation
 
 - 카카오맵 API는 브라우저 환경에서 실행되어야 함
 - 엑셀파일을 생성하기 위한 라이브러리는 Nodejs 환경에서 실행됨
@@ -57,9 +53,7 @@ API에서 받아올 정보
 - 카카오 API는 data 객체의로 정보를 반환함
 - data.buildingCode : 시군구 법정동 번지의 정보 포함
 
-### How to request
-
----
+## How to request
 
 1. Ajax
     
@@ -82,9 +76,7 @@ fetch로 JSON 형식의 건축물대장 데이터를 받는것에 성공함
 
 >>> 받아온 데이터를 파싱해서 사용자 친화적으로 보여주기
 
-### How to process data?
-
----
+## How to process data?
 
 - 공공데이터포털에서 응답받은 JSON에서 가변적으로 존재하는 요소들을 확인
 - JSON을 파싱해서 필요한 데이터를 선택적으로 추출
