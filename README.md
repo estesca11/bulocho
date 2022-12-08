@@ -1,14 +1,10 @@
 # Excel Automation
 
----
-
-JS based web app generating Excel files from OpenAPI
+JS based web app generating Excel files from OpenAPI  
 
 ## Features
 
----
-
-목표 ➡️ 건축물의 정보 획득 및 문서 작성, DB 입력의 자동화
+- 목표 ➡️ 건축물의 정보 획득 및 문서 작성, DB 입력의 자동화
 
 ### Front
 
@@ -95,12 +91,7 @@ fetch로 JSON 형식의 건축물대장 데이터를 받는것에 성공함
 - 데이터의 유무에 따른 동적 UI 구현
 
 - Data List
-    
-    
-    |  |  |
-    | --- | --- |
-    |  |  |
-    |  |  |
+
 
 구현방법
 
