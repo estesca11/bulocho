@@ -69,12 +69,12 @@ function findPostcode() {
 
 function openAPI(sgCode, bdCode, bun, ji) {
 
-    let apiKey = '8hWTxjOSsGimA5pB6AwPWTkEFTNXJEo7F3AJlEk45vT8QvjKkHokE1o%2BVbLNfLW6nShurD4JAU2q7IzoW%2FhL7Q%3D%3D';
+    let API_KEY = '8hWTxjOSsGimA5pB6AwPWTkEFTNXJEo7F3AJlEk45vT8QvjKkHokE1o%2BVbLNfLW6nShurD4JAU2q7IzoW%2FhL7Q%3D%3D';
 
     //openAPI의 엔드포인트
-    let openapiURL = `http://apis.data.go.kr/1613000/BldRgstService_v2/getBrTitleInfo?sigunguCd=${sgCode}&bjdongCd=${bdCode}&bun=${bun}&ji=${ji}&ServiceKey=${apiKey}&_type=json`;
+    let openapiURL = `http://apis.data.go.kr/1613000/BldRgstService_v2/getBrTitleInfo?sigunguCd=${sgCode}&bjdongCd=${bdCode}&bun=${bun}&ji=${ji}&ServiceKey=${API_KEY}&_type=json`;
     fetch(openapiURL)
         .then((res) => res.json())
-        .then(console.log)
-
+        .catch((err) => console.log("error:", err));
+    
 }
